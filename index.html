@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)file:///Users/mboivin/Downloads/marc_job_search-2.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marc · Aarhus Job Search</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap');
+
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: #E2DDD4;
+    --text: #1A1714;
+    --text2: #6B6459;
+    --text3: #9E9588;
+    --accent: #2B5F8E;
+    --accent-light: #EAF1F8;
+    --green: #2D6A3F;
+    --green-light: #E8F4EC;
+    --amber: #8A5A00;
+    --amber-light: #FDF3DC;
+    --red: #8B2020;
+    --red-light: #FCEAEA;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* LAYOUT */
+  .shell { display: flex; min-height: 100vh; }
+  
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    background: var(--text);
+    color: #fff;
+    padding: 28px 0;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 0 20px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 20px;
+  }
+  .sidebar-logo .wordmark {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .sidebar-logo .sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-section {
+    padding: 0 12px;
+    margin-bottom: 8px;
+  }
+  .nav-label {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    padding: 0 8px;
+    margin-bottom: 4px;
+  }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    font-weight: 400;
+    transition: all 0.15s;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.08); color: #fff; }
+  .nav-item.active { background: rgba(255,255,255,0.12); color: #fff; font-weight: 500; }
+  .nav-icon { font-size: 15px; width: 18px; text-align: center; }
+  
+  .sidebar-stats {
+    margin: 20px 12px 0;
+    padding: 14px;
+    background: rgba(255,255,255,0.07);
+    border-radius: var(--radius-sm);
+  }
+  .sidebar-stat { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .sidebar-stat:last-child { margin-bottom: 0; }
+  .sidebar-stat-label { font-size: 12px; color: rgba(255,255,255,0.45); }
+  .sidebar-stat-val { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.8); }
+
+  .main {
+    margin-left: 220px;
+    flex: 1;
+    padding: 32px 36px;
+    max-width: 960px;
+  }
+
+  /* PAGES */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  .page-header {
+    margin-bottom: 28px;
+  }
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .page-sub { font-size: 13px; color: var(--text2); }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 20px;
+    margin-bottom: 10px;
+  }
+  .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+
+  /* STATS ROW */
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .stat-label { font-size: 11px; color: var(--text2); margin-bottom: 6px; letter-spacing: 0.03em; }
+  .stat-val { font-size: 28px; font-weight: 300; color: var(--text); line-height: 1; }
+  .stat-val.blue { color: var(--accent); }
+  .stat-val.green { color: var(--green); }
+  .stat-val.amber { color: var(--amber); }
+
+  /* BADGES */
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    font-weight: 500;
+    margin-right: 4px;
+  }
+  .badge-stage { background: var(--accent-light); color: var(--accent); }
+  .badge-type { background: var(--surface2); color: var(--text2); }
+  .badge-high { background: var(--green-light); color: var(--green); }
+  .badge-med { background: var(--amber-light); color: var(--amber); }
+  .badge-low { background: var(--red-light); color: var(--red); }
+  .badge-danish { background: #F3EAF8; color: #6B2D8B; }
+
+  /* OPPORTUNITY CARD */
+  .opp-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .opp-card:hover { border-color: #C8C0B4; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .opp-org { font-size: 12px; color: var(--text2); margin-bottom: 2px; }
+  .opp-title { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  .opp-meta { display: flex; flex-wrap: wrap; gap: 2px; margin-bottom: 8px; }
+  .opp-note { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .opp-actions { display: flex; gap: 6px; margin-top: 10px; border-top: 1px solid var(--border); padding-top: 10px; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    border: none;
+  }
+  .btn-primary { background: var(--text); color: #fff; }
+  .btn-primary:hover { background: #333; }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+  .btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+  .btn-secondary:hover { background: var(--surface2); }
+  .btn-ghost { background: none; color: var(--text2); font-size: 12px; padding: 6px 10px; }
+  .btn-ghost:hover { color: var(--text); background: var(--surface2); }
+  .btn-add {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 12px 16px;
+    background: none; border: 1.5px dashed var(--border);
+    border-radius: var(--radius); color: var(--text2);
+    font-size: 13px; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    margin-top: 6px;
+  }
+  .btn-add:hover { background: var(--surface2); border-color: #C8C0B4; color: var(--text); }
+
+  /* INPUTS */
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 5px; font-weight: 500; }
+  input[type=text], input[type=email], textarea, select {
+    width: 100%; padding: 9px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    background: var(--surface);
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+  input[type=text]:focus, textarea:focus, select:focus {
+    outline: none; border-color: var(--accent);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  select { cursor: pointer; }
+  .input-row { display: flex; gap: 10px; }
+  .input-row .field { flex: 1; }
+
+  /* MODAL */
+  .modal-bg {
+    display: none; position: fixed; inset: 0;
+    background: rgba(20,16,12,0.45);
+    z-index: 100; align-items: center; justify-content: center;
+    backdrop-filter: blur(2px);
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    width: 100%; max-width: 480px;
+    max-height: 90vh; overflow-y: auto;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  }
+  .modal-title { font-family: 'Playfair Display', serif; font-size: 20px; margin-bottom: 18px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
+
+  /* AI RESULT */
+  .ai-result {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    white-space: pre-wrap;
+  }
+  .score-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+  .score-box { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 6px; }
+  .score-num { font-size: 20px; font-weight: 300; }
+  .score-lbl { font-size: 10px; color: var(--text2); margin-top: 2px; letter-spacing: 0.03em; }
+
+  /* SPINNER */
+  .spinner {
+    display: inline-block; width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+  }
+  .spinner-dark {
+    border: 2px solid var(--border);
+    border-top-color: var(--text);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* CONTACT CARD */
+  .contact-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 8px;
+    display: flex; gap: 14px;
+  }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 12px; color: var(--accent);
+    flex-shrink: 0;
+  }
+  .pill { font-size: 11px; padding: 2px 8px; border-radius: 99px; font-weight: 500; display: inline-block; }
+  .pill-sent { background: var(--accent-light); color: var(--accent); }
+  .pill-pending { background: var(--amber-light); color: var(--amber); }
+  .pill-replied { background: var(--green-light); color: var(--green); }
+  .pill-draft { background: var(--surface2); color: var(--text2); }
+
+  /* EMPLOYER CARD */
+  .employer-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+  }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .dot-active { background: var(--green); }
+  .dot-monitor { background: var(--amber); }
+  .dot-cold { background: var(--text3); }
+
+  /* JOB BOARDS */
+  .board-link {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.15s;
+  }
+  .board-link:hover { border-color: var(--accent); }
+  .board-name { font-weight: 500; font-size: 14px; }
+  .board-desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .board-arrow { color: var(--text3); font-size: 16px; }
+
+  /* FILTER ROW */
+  .filter-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .filter-row select { width: auto; flex: 0 0 auto; }
+
+  /* SECTION DIVIDER */
+  .section-label {
+    font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text2); font-weight: 500; margin-bottom: 10px;
+  }
+
+  /* TEXTAREA LARGE */
+  .textarea-lg { min-height: 140px; }
+
+  /* DRAFT OUTPUT */
+  .draft-output {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-wrap;
+    margin-top: 12px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* COPY BTN */
+  .copy-btn {
+    margin-top: 8px; font-size: 12px;
+    padding: 6px 12px; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    cursor: pointer; color: var(--text2); font-family: 'Inter', sans-serif;
+  }
+  .copy-btn:hover { background: var(--surface2); }
+
+  /* EMPTY */
+  .empty { text-align: center; padding: 40px 20px; color: var(--text2); font-size: 13px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .sidebar { width: 180px; }
+    .main { margin-left: 180px; padding: 24px 20px; }
+    .card-grid, .card-grid-3 { grid-template-columns: 1fr; }
+    .score-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="wordmark">Aarhus<br>Job Search</div>
+    <div class="sub">Marc Boivin · 2026</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Overview</div>
+    <button class="nav-item active" onclick="nav(&#39;dashboard&#39;)">
+      <span class="nav-icon">◈</span> Dashboard
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Search</div>
+    <button class="nav-item" onclick="nav(&#39;pipeline&#39;)">
+      <span class="nav-icon">⊞</span> Pipeline
+    </button>
+    <button class="nav-item" onclick="nav(&#39;employers&#39;)">
+      <span class="nav-icon">◉</span> Employers
+    </button>
+    <button class="nav-item" onclick="nav(&#39;outreach&#39;)">
+      <span class="nav-icon">◎</span> Outreach
+    </button>
+    <button class="nav-item" onclick="nav(&#39;boards&#39;)">
+      <span class="nav-icon">⊹</span> Job boards
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">AI Tools</div>
+    <button class="nav-item" onclick="nav(&#39;evaluate&#39;)">
+      <span class="nav-icon">⊛</span> Evaluate role
+    </button>
+    <button class="nav-item" onclick="nav(&#39;draft&#39;)">
+      <span class="nav-icon">✦</span> Draft email
+    </button>
+    <button class="nav-item" onclick="nav(&#39;research&#39;)">
+      <span class="nav-icon">◌</span> Research org
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Data</div>
+    <button class="nav-item" onclick="nav(&#39;backup&#39;)">
+      <span class="nav-icon">⊗</span> Backup &amp; restore
+    </button>
+  </div>
+
+  <div class="sidebar-stats" id="sidebar-stats">
+    <div class="sidebar-stat"><span class="sidebar-stat-label">Tracked</span><span class="sidebar-stat-val" id="ss-total">4</span></div>
+    <div class="sidebar-stat"><span class="sidebar-stat-label">Active</span><span class="sidebar-stat-val" id="ss-active">2</span></div>
+    <div class="sidebar-stat"><span class="sidebar-stat-label">High fit</span><span class="sidebar-stat-val" id="ss-fit">2</span></div>
+    <div class="sidebar-stat"><span class="sidebar-stat-label">Contacts</span><span class="sidebar-stat-val" id="ss-contacts">3</span></div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- DASHBOARD -->
+  <div id="page-dashboard" class="page active">
+    <div class="page-header">
+      <div class="page-title">Good morning, Marc.</div>
+      <div class="page-sub">Your Aarhus job search at a glance.</div>
+    </div>
+    <div class="card-grid-3" style="margin-bottom:20px;">
+      <div class="stat-card"><div class="stat-label">Opportunities tracked</div><div class="stat-val blue" id="d-total">4</div></div>
+      <div class="stat-card"><div class="stat-label">Active outreach</div><div class="stat-val amber" id="d-active">2</div></div>
+      <div class="stat-card"><div class="stat-label">High-fit roles</div><div class="stat-val green" id="d-fit">2</div></div>
+    </div>
+
+    <div class="section-label">Recent pipeline</div>
+    <div id="dash-recent"><div class="opp-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+      <div>
+        <div class="opp-org">LEGO Group · Billund (~90 min)</div>
+        <div class="opp-title">PlayLab Facilitator</div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;">Jun 11 2026</div>
+    </div>
+    <div class="opp-meta">
+      <span class="badge badge-stage">Passed</span>
+      <span class="badge badge-type">Education</span>
+      <span class="badge badge-low">Low fit</span>
+      <span class="badge badge-danish">Danish req.</span>
+    </div>
+    <div class="opp-note">Danish required for K-9 facilitation. Programme phase-out 2028 is a national reform, not LEGO-specific. Rule out.</div>
+    
+  </div><div class="opp-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+      <div>
+        <div class="opp-org">VIA University College · Herning (~45 min)</div>
+        <div class="opp-title">Branding &amp; Marketing Management — Lecturer</div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;">Jun 11 2026</div>
+    </div>
+    <div class="opp-meta">
+      <span class="badge badge-stage">Outreach sent</span>
+      <span class="badge badge-type">Academic</span>
+      <span class="badge badge-high">High fit</span>
+      
+    </div>
+    <div class="opp-note">English-taught programme. Top-up being phased out 2028 via national reform, but AP degree continues and new 1-yr continuation format launches 2030. Contact Nanna Jo Thor: nath@via.dk</div>
+    
+  </div><div class="opp-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+      <div>
+        <div class="opp-org">BAAA · Aarhus (~0 min)</div>
+        <div class="opp-title">Marketing Instructor (English-taught)</div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;">Jun 1 2026</div>
+    </div>
+    <div class="opp-meta">
+      <span class="badge badge-stage">Outreach sent</span>
+      <span class="badge badge-type">Academic</span>
+      <span class="badge badge-high">High fit</span>
+      
+    </div>
+    <div class="opp-note">Contact: Kim Sørensen Ramus. Awaiting reply. English programme, central Aarhus.</div>
+    
+  </div></div>
+
+    <div style="margin-top:24px;">
+      <div class="section-label">Quick actions</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="nav(&#39;evaluate&#39;)">✦ Evaluate a role</button>
+        <button class="btn btn-secondary" onclick="nav(&#39;draft&#39;)">✉ Draft an email</button>
+        <button class="btn btn-secondary" onclick="openOppModal()">+ Add opportunity</button>
+        <button class="btn btn-secondary" onclick="nav(&#39;boards&#39;)">↗ Browse job boards</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PIPELINE -->
+  <div id="page-pipeline" class="page">
+    <div class="page-header">
+      <div class="page-title">Pipeline</div>
+      <div class="page-sub">Track every opportunity from first glance to offer.</div>
+    </div>
+    <div class="filter-row">
+      <select id="f-stage" onchange="renderPipeline()">
+        <option value="">All stages</option>
+        <option>Watching</option><option>Outreach sent</option><option>Applied</option>
+        <option>Interview</option><option>Offer</option><option>Passed</option>
+      </select>
+      <select id="f-fit" onchange="renderPipeline()">
+        <option value="">All fit</option>
+        <option>High</option><option>Medium</option><option>Low</option>
+      </select>
+    </div>
+    <div id="opp-list"></div>
+    <button class="btn-add" onclick="openOppModal()">+ Add opportunity</button>
+  </div>
+
+  <!-- EMPLOYERS -->
+  <div id="page-employers" class="page">
+    <div class="page-header">
+      <div class="page-title">Target employers</div>
+      <div class="page-sub">Organisations worth watching — even before they post.</div>
+    </div>
+    <div style="display:flex;gap:16px;margin-bottom:16px;font-size:12px;color:var(--text2);">
+      <span><span class="dot dot-active"></span>Actively pursuing</span>
+      <span><span class="dot dot-monitor"></span>Monitoring</span>
+      <span><span class="dot dot-cold"></span>Cold watch</span>
+    </div>
+    <div class="card-grid" id="employer-grid"></div>
+  </div>
+
+  <!-- OUTREACH -->
+  <div id="page-outreach" class="page">
+    <div class="page-header">
+      <div class="page-title">Outreach</div>
+      <div class="page-sub">Contacts, status, and follow-ups.</div>
+    </div>
+    <div id="contact-list"></div>
+    <button class="btn-add" onclick="openContactModal()">+ Add contact</button>
+  </div>
+
+  <!-- JOB BOARDS -->
+  <div id="page-boards" class="page">
+    <div class="page-header">
+      <div class="page-title">Job boards</div>
+      <div class="page-sub">Pre-filtered links for your search profile. Opens in a new tab.</div>
+    </div>
+
+    <div class="section-label" style="margin-top:8px;">Denmark — English-friendly</div>
+    <a class="board-link" href="https://www.workindenmark.dk/Find-a-job/Job-search#/?query=marketing&amp;locationText=Aarhus&amp;workingHours=Full-time" target="_blank">
+      <div><div class="board-name">Workindenmark.dk</div><div class="board-desc">Official Danish government portal for international workers — English roles</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+    <a class="board-link" href="https://www.jobindex.dk/jobsoegning?q=marketing+lecturer&amp;supid=0&amp;lang=en" target="_blank">
+      <div><div class="board-name">Jobindex — Marketing / Lecturer</div><div class="board-desc">Denmark's largest job board, filtered for your keywords</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+    <a class="board-link" href="https://www.jobindex.dk/jobsoegning?q=learning+development&amp;supid=0&amp;lang=en" target="_blank">
+      <div><div class="board-name">Jobindex — L&amp;D roles</div><div class="board-desc">Learning &amp; development, training, curriculum design</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+
+    <div class="section-label" style="margin-top:20px;">Academic &amp; education</div>
+    <a class="board-link" href="https://www.academicpositions.com/jobs/country/denmark" target="_blank">
+      <div><div class="board-name">Academic Positions — Denmark</div><div class="board-desc">Faculty and lecturer roles at Danish institutions</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+    <a class="board-link" href="https://www.jobs.ac.uk/search/?keywords=marketing&amp;location=Denmark" target="_blank">
+      <div><div class="board-name">jobs.ac.uk — Denmark</div><div class="board-desc">UK academic job board with Danish listings</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+    <a class="board-link" href="https://via.dk/om-via/job" target="_blank">
+      <div><div class="board-name">VIA University College — Careers</div><div class="board-desc">Direct job listings from your top target institution</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+    <a class="board-link" href="https://www.baaa.dk/om-businessacademy-aarhus/job-ved-businessacademy-aarhus" target="_blank">
+      <div><div class="board-name">Business Academy Aarhus (BAAA)</div><div class="board-desc">Direct listings from BAAA</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+
+    <div class="section-label" style="margin-top:20px;">Corporate — Aarhus region</div>
+    <a class="board-link" href="https://www.linkedin.com/jobs/search/?keywords=learning%20development%20marketing&amp;location=Aarhus%2C%20Denmark" target="_blank">
+      <div><div class="board-name">LinkedIn — Aarhus L&amp;D / Marketing</div><div class="board-desc">LinkedIn jobs filtered for Aarhus, L&amp;D and marketing roles</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+    <a class="board-link" href="https://www.grundfos.com/careers/find-a-job" target="_blank">
+      <div><div class="board-name">Grundfos Careers</div><div class="board-desc">Direct portal — watch for L&amp;D and capability development roles</div></div>
+      <div class="board-arrow">↗</div>
+    </a>
+  </div>
+
+  <!-- EVALUATE -->
+  <div id="page-evaluate" class="page">
+    <div class="page-header">
+      <div class="page-title">Evaluate a role</div>
+      <div class="page-sub">Paste any job posting. AI scores it against your profile in seconds.</div>
+    </div>
+    <div class="card">
+      <div class="section-label">Your profile criteria</div>
+      <div class="card-grid-3" style="gap:8px;margin-bottom:16px;">
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;"><div style="font-size:11px;color:var(--text2);">Max commute</div><div style="font-size:13px;font-weight:500;">~60 min from Aarhus</div></div>
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;"><div style="font-size:11px;color:var(--text2);">Danish required</div><div style="font-size:13px;font-weight:500;">Flag if yes</div></div>
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;"><div style="font-size:11px;color:var(--text2);">PhD required</div><div style="font-size:13px;font-weight:500;">Flag if yes</div></div>
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;"><div style="font-size:11px;color:var(--text2);">Language</div><div style="font-size:13px;font-weight:500;">English strongly preferred</div></div>
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;"><div style="font-size:11px;color:var(--text2);">Role type</div><div style="font-size:13px;font-weight:500;">Teaching, L&amp;D, marketing</div></div>
+        <div style="background:var(--surface2);border-radius:var(--radius-sm);padding:8px 10px;"><div style="font-size:11px;color:var(--text2);">Level</div><div style="font-size:13px;font-weight:500;">Senior / strategic</div></div>
+      </div>
+      <div class="field">
+        <label>Job posting text</label>
+        <textarea class="textarea-lg" id="eval-input" placeholder="Paste the full job posting here — title, description, requirements, location..."></textarea>
+      </div>
+      <button class="btn btn-primary" id="eval-btn" onclick="runEval()">Evaluate this role</button>
+      <div id="eval-output" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- DRAFT EMAIL -->
+  <div id="page-draft" class="page">
+    <div class="page-header">
+      <div class="page-title">Draft an email</div>
+      <div class="page-sub">AI writes outreach, follow-ups, and cover emails in your voice.</div>
+    </div>
+    <div class="card">
+      <div class="input-row">
+        <div class="field">
+          <label>Email type</label>
+          <select id="draft-type">
+            <option value="cold">Cold outreach — teaching / lecturing role</option>
+            <option value="followup">Follow-up to previous outreach</option>
+            <option value="cover">Cover letter for a specific role</option>
+            <option value="linkedin">LinkedIn connection message</option>
+            <option value="custom">Custom (describe below)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Recipient name</label>
+          <input type="text" id="draft-name" placeholder="e.g. Kim Sørensen Ramus">
+        </div>
+      </div>
+      <div class="input-row">
+        <div class="field">
+          <label>Organisation</label>
+          <input type="text" id="draft-org" placeholder="e.g. BAAA, VIA University College">
+        </div>
+        <div class="field">
+          <label>Their role (if known)</label>
+          <input type="text" id="draft-role" placeholder="e.g. Marketing programme coordinator">
+        </div>
+      </div>
+      <div class="field">
+        <label>Context or instructions (optional)</label>
+        <textarea id="draft-context" placeholder="E.g. I spoke to them briefly at an event... / The role is specifically for the English-taught marketing programme..."></textarea>
+      </div>
+      <button class="btn btn-primary" id="draft-btn" onclick="runDraft()">Draft this email</button>
+      <div id="draft-output" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- RESEARCH -->
+  <div id="page-research" class="page">
+    <div class="page-header">
+      <div class="page-title">Research an organisation</div>
+      <div class="page-sub">Get a fast briefing on any target employer before you reach out.</div>
+    </div>
+    <div class="card">
+      <div class="input-row">
+        <div class="field">
+          <label>Organisation name</label>
+          <input type="text" id="research-org" placeholder="e.g. BAAA, Grundfos, Dania Academy">
+        </div>
+        <div class="field">
+          <label>What do you want to know?</label>
+          <select id="research-focus">
+            <option value="overview">General overview + teaching opportunities</option>
+            <option value="english">English-taught programmes and language requirements</option>
+            <option value="culture">Culture, values, and what they look for in hires</option>
+            <option value="contact">Who to contact and how to approach them</option>
+            <option value="compare">How it compares to other targets on my list</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" id="research-btn" onclick="runResearch()">Research this org</button>
+      <div id="research-output" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- BACKUP -->
+  <div id="page-backup" class="page">
+    <div class="page-header">
+      <div class="page-title">Backup &amp; restore</div>
+      <div class="page-sub">Export your data as a JSON file. Import it back anytime — on any computer.</div>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <div style="font-size:14px;font-weight:500;margin-bottom:6px;">Export backup</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Downloads a <code style="background:var(--surface2);padding:1px 5px;border-radius:3px;font-size:12px;">.json</code> file with all your opportunities, contacts, and employer notes. Save it to Dropbox, Google Drive, or email it to yourself. Date-stamped so you know which version is latest.</div>
+      <button class="btn btn-primary" onclick="exportBackup()">↓ Download backup</button>
+    </div>
+
+    <div class="card" style="margin-bottom:12px;">
+      <div style="font-size:14px;font-weight:500;margin-bottom:6px;">Restore from backup</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Load a previously exported backup file. This will <strong>replace</strong> your current data — make sure to export first if you want to keep recent changes.</div>
+      <input type="file" id="restore-file" accept=".json" style="display:none;" onchange="importBackup(event)">
+      <button class="btn btn-secondary" onclick="document.getElementById(&#39;restore-file&#39;).click()">↑ Choose backup file</button>
+      <div id="restore-status" style="margin-top:10px;font-size:13px;display:none;"></div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:14px;font-weight:500;margin-bottom:6px;">Current data summary</div>
+      <div id="backup-summary" style="font-size:13px;color:var(--text2);line-height:1.9;"></div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+        <div style="font-size:13px;font-weight:500;color:var(--red);margin-bottom:6px;">Danger zone</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:10px;">Reset all data back to the original defaults. This cannot be undone — export a backup first.</div>
+        <button class="btn btn-secondary" style="color:var(--red);border-color:var(--red);" onclick="resetToDefaults()">Reset to defaults</button>
+      </div>
+    </div>
+  </div>
+
+</main>
+</div>
+
+<!-- ADD OPP MODAL -->
+<div class="modal-bg" id="opp-modal">
+  <div class="modal">
+    <div class="modal-title">Add opportunity</div>
+    <div class="input-row">
+      <div class="field"><label>Employer</label><input type="text" id="m-org" placeholder="e.g. VIA University College"></div>
+      <div class="field"><label>Role title</label><input type="text" id="m-title" placeholder="e.g. Lecturer, Marketing"></div>
+    </div>
+    <div class="input-row">
+      <div class="field"><label>Stage</label>
+        <select id="m-stage"><option>Watching</option><option>Outreach sent</option><option>Applied</option><option>Interview</option><option>Offer</option><option>Passed</option></select>
+      </div>
+      <div class="field"><label>Fit</label>
+        <select id="m-fit"><option>High</option><option>Medium</option><option>Low</option></select>
+      </div>
+    </div>
+    <div class="input-row">
+      <div class="field"><label>Type</label>
+        <select id="m-type"><option>Academic</option><option>Corporate L&amp;D</option><option>Education</option><option>Consulting</option><option>Other</option></select>
+      </div>
+      <div class="field"><label>Location</label><input type="text" id="m-location" placeholder="e.g. Herning (~45 min)"></div>
+    </div>
+    <div class="field">
+      <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+        <input type="checkbox" id="m-danish" style="width:auto;"> Danish language required
+      </label>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="m-note" placeholder="Key details, flags, contacts, next steps..."></textarea></div>
+    <div class="field"><label>Job posting URL (optional)</label><input type="text" id="m-url" placeholder="https://..."></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveOpp()">Save opportunity</button>
+    </div>
+  </div>
+</div>
+
+<!-- ADD CONTACT MODAL -->
+<div class="modal-bg" id="contact-modal">
+  <div class="modal">
+    <div class="modal-title">Add contact</div>
+    <div class="input-row">
+      <div class="field"><label>Name</label><input type="text" id="c-name" placeholder="Full name"></div>
+      <div class="field"><label>Organisation</label><input type="text" id="c-org" placeholder="e.g. BAAA"></div>
+    </div>
+    <div class="field"><label>Their role</label><input type="text" id="c-role" placeholder="e.g. Marketing programme coordinator"></div>
+    <div class="field"><label>Email (optional)</label><input type="email" id="c-email" placeholder="name@institution.dk"></div>
+    <div class="input-row">
+      <div class="field"><label>Status</label>
+        <select id="c-status"><option value="draft">Draft — not contacted</option><option value="sent">Outreach sent</option><option value="pending">Awaiting reply</option><option value="replied">Replied</option></select>
+      </div>
+      <div class="field"><label>Date contacted</label><input type="text" id="c-date" placeholder="e.g. Jun 11"></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="c-note" placeholder="How you found them, context, next steps..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeModals()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveContact()">Save contact</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── PROFILE ─────────────────────────────────────────────────────────────────
+const PROFILE = `Marc Boivin — profile for job search evaluation:
+- MBA from McGill University, BComm from University of Calgary. No PhD.
+- Associate Professor of Marketing and Area Chair, Haskayne School of Business, University of Calgary. Resigning June 30, 2026.
+- 200+ published teaching cases with Nelson/Cengage and McGraw-Hill. Prolific textbook and case author.
+- Runs consulting practice (Panel Marketing Inc.). Has held CMO role at a tech startup.
+- Expertise in AI-powered learning tools and curriculum design.
+- Relocating to Aarhus, Denmark area July 2026. Will live approximately 60 minutes from Billund/Herning area.
+- Danish language: none currently. Committed to learning. Seeks English-language or bilingual roles.
+- Target roles: business education (lecturing/teaching), L&D / curriculum design, marketing practitioner roles, AI in education.
+- Does NOT need a PhD for practitioner-oriented teaching roles at professionshøjskoler / erhvervsakademier.
+- Budget: looking for full-time or substantial part-time equivalent.`;
+
+// ─── DEFAULT DATA ─────────────────────────────────────────────────────────────
+const DEFAULT_OPPS = [
+  {id:1,org:'LEGO Group',title:'PlayLab Facilitator',stage:'Passed',fit:'Low',type:'Education',danish:true,location:'Billund (~90 min)',date:'Jun 11 2026',note:'Danish required for K-9 facilitation. Programme phase-out 2028 is a national reform, not LEGO-specific. Rule out.',url:''},
+  {id:2,org:'VIA University College',title:'Branding & Marketing Management — Lecturer',stage:'Outreach sent',fit:'High',type:'Academic',danish:false,location:'Herning (~45 min)',date:'Jun 11 2026',note:'English-taught programme. Top-up being phased out 2028 via national reform, but AP degree continues and new 1-yr continuation format launches 2030. Contact Nanna Jo Thor: nath@via.dk',url:'https://en.via.dk/programmes/bachelor/design-and-business-bachelor-top-up/branding-and-marketing-management'},
+  {id:3,org:'BAAA',title:'Marketing Instructor (English-taught)',stage:'Outreach sent',fit:'High',type:'Academic',danish:false,location:'Aarhus (~0 min)',date:'Jun 1 2026',note:'Contact: Kim Sørensen Ramus. Awaiting reply. English programme, central Aarhus.',url:'https://www.baaa.dk'},
+  {id:4,org:'Grundfos',title:'L&D / Capability Development',stage:'Watching',fit:'Medium',type:'Corporate L&D',danish:false,location:'Bjerringbro (~40 min)',date:'Jun 3 2026',note:'Global company, English-first internally. HQ near landing area. Watch careers page for L&D / capability roles.',url:'https://www.grundfos.com/careers'},
+];
+
+const DEFAULT_CONTACTS = [
+  {id:1,initials:'KR',name:'Kim Sørensen Ramus',org:'BAAA',role:'Marketing programme lead',email:'',status:'sent',date:'Jun 1',note:'Initial outreach sent. Key contact for English marketing programme.'},
+  {id:2,initials:'AF',name:'Anders Frederiksen',org:'BTECH / AU Herning',role:'Business faculty',email:'',status:'pending',date:'Jun 5',note:'Identified as relevant contact. Practitioner-teaching culture.'},
+  {id:3,initials:'NJ',name:'Nanna Jo Thor',org:'VIA University College',role:'Project lead, VIA Design & Business',email:'nath@via.dk',status:'draft',date:'',note:'Identified via research. Best entry point to VIA Herning. Contact for speculative outreach re: teaching opportunities.'},
+];
+
+const DEFAULT_EMPLOYERS = [
+  {name:'VIA University College',type:'Business school — Campus Herning',status:'active',tags:['English programme','~45 min','No PhD req','AP degree continues'],note:'Top-up phasing out 2028 (national reform) but AP degree and new continuation format ongoing. Strong subject fit. Outreach in progress.'},
+  {name:'BAAA',type:'Business Academy Aarhus',status:'active',tags:['In Aarhus','English-taught','Marketing','No PhD req'],note:'Core target. English business programmes. Kim Sørensen Ramus contacted.'},
+  {name:'AU Herning / BTECH',type:'Business school — AU affiliate',status:'active',tags:['~50 min','English','Practitioner culture'],note:'Anders Frederiksen identified. Practitioner-teaching focus aligns well with profile.'},
+  {name:'Dania Academy',type:'Business school',status:'monitor',tags:['English options','~50 min'],note:'Smaller profile. Watch for curriculum design or adjunct openings.'},
+  {name:'AAUBS',type:'Business school — Aarhus',status:'monitor',tags:['Aarhus','PhD preferred','Research focus'],note:'PhD preference a barrier for tenure-track. Watch for practice-track roles.'},
+  {name:'Grundfos',type:'Global corporate',status:'monitor',tags:['Bjerringbro ~40 min','English-first','L&D'],note:'HQ near landing area. L&D / capability development is the angle. Watch careers.grundfos.com.'},
+  {name:'LEGO Group',type:'Global corporate',status:'monitor',tags:['Billund ~90 min','English-first'],note:'Skip facilitation (Danish req). Watch for L&D, curriculum design, learning innovation roles.'},
+  {name:'Vestas',type:'Global corporate',status:'cold',tags:['Aarhus','English-first'],note:'Wind energy giant. Marketing comms or internal training angle possible.'},
+  {name:'Arla Foods',type:'Global corporate',status:'cold',tags:['Viby J / Aarhus','Marketing','English-first'],note:'HQ in Viby J. Marketing/brand or L&D roles. Consulting angle viable.'},
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+function loadData() {
+  try {
+    return {
+      opps: JSON.parse(localStorage.getItem('marc_opps')) || DEFAULT_OPPS,
+      contacts: JSON.parse(localStorage.getItem('marc_contacts')) || DEFAULT_CONTACTS,
+      employers: JSON.parse(localStorage.getItem('marc_employers')) || DEFAULT_EMPLOYERS,
+    };
+  } catch(e) { return { opps: DEFAULT_OPPS, contacts: DEFAULT_CONTACTS, employers: DEFAULT_EMPLOYERS }; }
+}
+function save(key, data) { try { localStorage.setItem(key, JSON.stringify(data)); } catch(e) {} }
+
+let { opps, contacts, employers } = loadData();
+let nextOppId = Math.max(...opps.map(o=>o.id), 0) + 1;
+let nextContactId = Math.max(...contacts.map(c=>c.id), 0) + 1;
+
+// ─── NAVIGATION ───────────────────────────────────────────────────────────────
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+page+"'")) n.classList.add('active');
+  });
+  if (page==='dashboard') renderDashboard();
+  if (page==='pipeline') renderPipeline();
+  if (page==='employers') renderEmployers();
+  if (page==='outreach') renderContacts();
+  if (page==='backup') renderBackupSummary();
+  updateSidebar();
+}
+
+// ─── STATS ────────────────────────────────────────────────────────────────────
+function updateSidebar() {
+  const active = opps.filter(o=>['Outreach sent','Applied','Interview'].includes(o.stage)).length;
+  document.getElementById('ss-total').textContent = opps.length;
+  document.getElementById('ss-active').textContent = active;
+  document.getElementById('ss-fit').textContent = opps.filter(o=>o.fit==='High').length;
+  document.getElementById('ss-contacts').textContent = contacts.length;
+  document.getElementById('d-total').textContent = opps.length;
+  document.getElementById('d-active').textContent = active;
+  document.getElementById('d-fit').textContent = opps.filter(o=>o.fit==='High').length;
+}
+
+// ─── DASHBOARD ────────────────────────────────────────────────────────────────
+function renderDashboard() {
+  const recent = [...opps].slice(0,3);
+  const el = document.getElementById('dash-recent');
+  if (!recent.length) { el.innerHTML = '<div class="empty">No opportunities tracked yet. <a href="#" onclick="openOppModal()">Add one →</a></div>'; return; }
+  el.innerHTML = recent.map(o => oppCardHTML(o, true)).join('');
+  updateSidebar();
+}
+
+// ─── PIPELINE ─────────────────────────────────────────────────────────────────
+function renderPipeline() {
+  const sf = document.getElementById('f-stage').value;
+  const ff = document.getElementById('f-fit').value;
+  const filtered = opps.filter(o => (!sf || o.stage===sf) && (!ff || o.fit===ff));
+  const el = document.getElementById('opp-list');
+  if (!filtered.length) { el.innerHTML = '<div class="empty">No opportunities match this filter.</div>'; return; }
+  el.innerHTML = filtered.map(o => oppCardHTML(o, false)).join('');
+}
+
+function oppCardHTML(o, compact) {
+  const fc = o.fit==='High'?'badge-high':o.fit==='Medium'?'badge-med':'badge-low';
+  return `<div class="opp-card">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">
+      <div>
+        <div class="opp-org">${o.org}${o.location?' · '+o.location:''}</div>
+        <div class="opp-title">${o.title}</div>
+      </div>
+      <div style="font-size:11px;color:var(--text3);white-space:nowrap;flex-shrink:0;">${o.date||''}</div>
+    </div>
+    <div class="opp-meta">
+      <span class="badge badge-stage">${o.stage}</span>
+      <span class="badge badge-type">${o.type}</span>
+      <span class="badge ${fc}">${o.fit} fit</span>
+      ${o.danish?'<span class="badge badge-danish">Danish req.</span>':''}
+    </div>
+    ${o.note?`<div class="opp-note">${o.note}</div>`:''}
+    ${!compact?`<div class="opp-actions">
+      <button class="btn btn-ghost" onclick="aiEvalFromPipeline(${o.id})">✦ Evaluate</button>
+      <button class="btn btn-ghost" onclick="aiDraftFromPipeline(${o.id})">✉ Draft email</button>
+      ${o.url?`<button class="btn btn-ghost" onclick="window.open('${o.url}','_blank')">↗ View posting</button>`:''}
+      <button class="btn btn-ghost" style="margin-left:auto;color:var(--red);" onclick="deleteOpp(${o.id})">Delete</button>
+    </div>`:''}
+  </div>`;
+}
+
+function aiEvalFromPipeline(id) {
+  const o = opps.find(x=>x.id===id);
+  if (!o) return;
+  document.getElementById('eval-input').value = `Role: ${o.title}\nOrganisation: ${o.org}\nLocation: ${o.location||''}\nType: ${o.type}\n${o.note?'Notes: '+o.note:''}`;
+  nav('evaluate');
+  runEval();
+}
+function aiDraftFromPipeline(id) {
+  const o = opps.find(x=>x.id===id);
+  if (!o) return;
+  document.getElementById('draft-org').value = o.org;
+  document.getElementById('draft-type').value = 'cold';
+  nav('draft');
+}
+
+function deleteOpp(id) {
+  if (!confirm('Remove this opportunity?')) return;
+  opps = opps.filter(o=>o.id!==id);
+  save('marc_opps', opps);
+  renderPipeline(); updateSidebar();
+}
+
+// ─── EMPLOYERS ────────────────────────────────────────────────────────────────
+function renderEmployers() {
+  const el = document.getElementById('employer-grid');
+  el.innerHTML = employers.map(e => `
+    <div class="employer-card">
+      <div style="font-size:14px;font-weight:500;margin-bottom:2px;"><span class="dot dot-${e.status}"></span>${e.name}</div>
+      <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">${e.type}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;">${e.tags.map(t=>`<span class="badge badge-type">${t}</span>`).join('')}</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.55;border-top:1px solid var(--border);padding-top:8px;">${e.note}</div>
+      <div style="margin-top:8px;">
+        <button class="btn btn-ghost" onclick="researchFromEmployer('${e.name.replace(/'/g,"\\'")}')">◌ Research →</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function researchFromEmployer(name) {
+  document.getElementById('research-org').value = name;
+  nav('research');
+  runResearch();
+}
+
+// ─── CONTACTS ─────────────────────────────────────────────────────────────────
+function renderContacts() {
+  const el = document.getElementById('contact-list');
+  if (!contacts.length) { el.innerHTML = '<div class="empty">No contacts yet.</div>'; return; }
+  const pc = {sent:'pill-sent',pending:'pill-pending',replied:'pill-replied',draft:'pill-draft'};
+  el.innerHTML = contacts.map(c => `
+    <div class="contact-card">
+      <div class="avatar">${c.initials}</div>
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;flex-wrap:wrap;">
+          <span style="font-size:14px;font-weight:500;">${c.name}</span>
+          <span class="pill ${pc[c.status]||'pill-draft'}">${c.status}</span>
+          ${c.date?`<span style="font-size:11px;color:var(--text3);">${c.date}</span>`:''}
+        </div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:8px;">${c.role} · ${c.org}${c.email?' · '+c.email:''}</div>
+        ${c.note?`<div style="font-size:12px;color:var(--text2);margin-bottom:8px;">${c.note}</div>`:''}
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <button class="btn btn-ghost" onclick="draftFollowup('${c.name.replace(/'/g,"\\'")}','${c.org.replace(/'/g,"\\'")}','${c.date}')">✉ Follow up</button>
+          <button class="btn btn-ghost" onclick="researchFromEmployer('${c.org.replace(/'/g,"\\'")}')">◌ Research org</button>
+          <button class="btn btn-ghost" style="color:var(--red);" onclick="deleteContact(${c.id})">Delete</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function draftFollowup(name, org, date) {
+  document.getElementById('draft-type').value = 'followup';
+  document.getElementById('draft-name').value = name;
+  document.getElementById('draft-org').value = org;
+  document.getElementById('draft-context').value = date ? `I sent initial outreach on ${date}.` : '';
+  nav('draft');
+}
+
+function deleteContact(id) {
+  if (!confirm('Remove this contact?')) return;
+  contacts = contacts.filter(c=>c.id!==id);
+  save('marc_contacts', contacts);
+  renderContacts(); updateSidebar();
+}
+
+// ─── MODALS ───────────────────────────────────────────────────────────────────
+function openOppModal() { document.getElementById('opp-modal').classList.add('open'); }
+function openContactModal() { document.getElementById('contact-modal').classList.add('open'); }
+function closeModals() { document.querySelectorAll('.modal-bg').forEach(m=>m.classList.remove('open')); }
+
+document.querySelectorAll('.modal-bg').forEach(m => {
+  m.addEventListener('click', e => { if (e.target===m) closeModals(); });
+});
+
+function saveOpp() {
+  const org = document.getElementById('m-org').value.trim();
+  const title = document.getElementById('m-title').value.trim();
+  if (!org || !title) { alert('Employer and title are required.'); return; }
+  const opp = {
+    id: nextOppId++,
+    org, title,
+    stage: document.getElementById('m-stage').value,
+    fit: document.getElementById('m-fit').value,
+    type: document.getElementById('m-type').value,
+    location: document.getElementById('m-location').value.trim(),
+    danish: document.getElementById('m-danish').checked,
+    date: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+    note: document.getElementById('m-note').value.trim(),
+    url: document.getElementById('m-url').value.trim(),
+  };
+  opps.unshift(opp);
+  save('marc_opps', opps);
+  closeModals();
+  ['m-org','m-title','m-location','m-note','m-url'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('m-danish').checked = false;
+  renderPipeline(); updateSidebar();
+  nav('pipeline');
+}
+
+function saveContact() {
+  const name = document.getElementById('c-name').value.trim();
+  if (!name) { alert('Name is required.'); return; }
+  const contact = {
+    id: nextContactId++,
+    initials: name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
+    name,
+    org: document.getElementById('c-org').value.trim(),
+    role: document.getElementById('c-role').value.trim(),
+    email: document.getElementById('c-email').value.trim(),
+    status: document.getElementById('c-status').value,
+    date: document.getElementById('c-date').value.trim(),
+    note: document.getElementById('c-note').value.trim(),
+  };
+  contacts.unshift(contact);
+  save('marc_contacts', contacts);
+  closeModals();
+  ['c-name','c-org','c-role','c-email','c-date','c-note'].forEach(id=>document.getElementById(id).value='');
+  renderContacts(); updateSidebar();
+}
+
+// ─── AI: EVALUATE ─────────────────────────────────────────────────────────────
+async function runEval() {
+  const text = document.getElementById('eval-input').value.trim();
+  if (!text) { alert('Please paste a job posting first.'); return; }
+  const btn = document.getElementById('eval-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Evaluating...';
+  document.getElementById('eval-output').style.display = 'none';
+
+  const prompt = `You are evaluating a job opportunity for the following candidate:\n\n${PROFILE}\n\nJOB POSTING:\n${text}\n\nRespond ONLY with valid JSON (no markdown, no preamble, no explanation):\n{"org":"employer name","title":"role title","fitScore":7,"locationScore":8,"danishRequired":false,"phdRequired":false,"languageRisk":"Low","recommendation":"Apply","verdict":"one of: Apply / Worth exploring / Pass","summary":"4-5 sentence honest assessment covering fit strengths, key blockers, and a clear recommendation"}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const p = JSON.parse(raw);
+    const fc = p.fitScore>=7?'var(--green)':p.fitScore>=5?'var(--amber)':'var(--red)';
+    const lc = p.locationScore>=7?'var(--green)':p.locationScore>=5?'var(--amber)':'var(--red)';
+    const rc = p.verdict==='Apply'?'var(--green)':p.verdict==='Worth exploring'?'var(--amber)':'var(--red)';
+    document.getElementById('eval-output').innerHTML = `
+      <div style="margin-top:16px;">
+        <div style="font-size:13px;font-weight:500;margin-bottom:8px;color:var(--text2);">${p.org} — ${p.title}</div>
+        <div class="score-row">
+          <div class="score-box"><div class="score-num" style="color:${fc}">${p.fitScore}<span style="font-size:14px">/10</span></div><div class="score-lbl">Profile fit</div></div>
+          <div class="score-box"><div class="score-num" style="color:${lc}">${p.locationScore}<span style="font-size:14px">/10</span></div><div class="score-lbl">Location</div></div>
+          <div class="score-box"><div class="score-num" style="color:${p.danishRequired?'var(--red)':'var(--green)'}; font-size:16px;padding-top:4px;">${p.danishRequired?'Yes':'No'}</div><div class="score-lbl">Danish req.</div></div>
+          <div class="score-box"><div class="score-num" style="color:${rc};font-size:14px;padding-top:5px;">${p.verdict}</div><div class="score-lbl">Verdict</div></div>
+        </div>
+        <div class="ai-result">${p.summary}</div>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+          <button class="btn btn-secondary" onclick="addEvalToPipeline('${(p.org||'').replace(/'/g,"\\'")}','${(p.title||'').replace(/'/g,"\\'")}','${p.verdict}')">+ Add to pipeline</button>
+          <button class="btn btn-secondary" onclick="draftCoverFromEval('${(p.org||'').replace(/'/g,"\\'")}','${(p.title||'').replace(/'/g,"\\'")}')">✉ Draft cover letter</button>
+        </div>
+      </div>`;
+    document.getElementById('eval-output').style.display = 'block';
+  } catch(e) {
+    document.getElementById('eval-output').innerHTML = '<div class="ai-result" style="color:var(--red);">Evaluation failed. Check your connection and try again.\n\n'+e.message+'</div>';
+    document.getElementById('eval-output').style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.innerHTML = 'Evaluate this role';
+}
+
+function addEvalToPipeline(org, title, verdict) {
+  const fit = verdict==='Apply'?'High':verdict==='Worth exploring'?'Medium':'Low';
+  document.getElementById('m-org').value = org;
+  document.getElementById('m-title').value = title;
+  document.getElementById('m-fit').value = fit;
+  openOppModal();
+}
+function draftCoverFromEval(org, title) {
+  document.getElementById('draft-type').value = 'cover';
+  document.getElementById('draft-org').value = org;
+  document.getElementById('draft-context').value = `The role is: ${title}`;
+  nav('draft');
+  runDraft();
+}
+
+// ─── AI: DRAFT EMAIL ──────────────────────────────────────────────────────────
+async function runDraft() {
+  const type = document.getElementById('draft-type').value;
+  const name = document.getElementById('draft-name').value.trim();
+  const org = document.getElementById('draft-org').value.trim();
+  const role = document.getElementById('draft-role').value.trim();
+  const context = document.getElementById('draft-context').value.trim();
+
+  if (!org && !name) { alert('Please fill in at least the organisation name.'); return; }
+
+  const btn = document.getElementById('draft-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Drafting...';
+  document.getElementById('draft-output').style.display = 'none';
+
+  const typeDesc = {
+    cold: 'a cold outreach email exploring teaching or curriculum opportunities',
+    followup: 'a brief, warm follow-up to a previous outreach email that has not yet received a reply',
+    cover: 'a cover letter for a specific role',
+    linkedin: 'a short LinkedIn connection request message',
+    custom: 'a custom email as described in the context below'
+  }[type] || 'an outreach email';
+
+  const prompt = `Write ${typeDesc} for Marc Boivin.\n\nMARC'S PROFILE:\n${PROFILE}\n\nRECIPIENT: ${name||'[name unknown]'}\nORGANISATION: ${org||'[unknown]'}\nTHEIR ROLE: ${role||'[unknown]'}\n${context?'ADDITIONAL CONTEXT:\n'+context:''}\n\nTONE REQUIREMENTS:\n- Direct, human, and concise. NOT AI-sounding.\n- No hollow phrases like "I hope this finds you well" or "I am reaching out to..."\n- Opens with a genuine hook specific to them or their institution\n- Practitioner credibility front and centre — 200+ cases, CMO experience, real-world relevance\n- One clear ask at the end\n- Max 180 words for cold outreach; shorter for LinkedIn; longer acceptable for cover letter\n- Sign off as Marc Boivin\n\nWrite only the email text, no commentary, no subject line prefix labels. For email, include a subject line on the first line prefixed with "Subject: "`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const text = data.content.map(i=>i.text||'').join('').trim();
+    document.getElementById('draft-output').innerHTML = `
+      <div class="draft-output" id="draft-text">${escHtml(text)}</div>
+      <button class="copy-btn" onclick="copyDraft()">Copy to clipboard</button>`;
+    document.getElementById('draft-output').style.display = 'block';
+  } catch(e) {
+    document.getElementById('draft-output').innerHTML = '<div class="ai-result" style="color:var(--red);">Draft failed. Check connection and try again.</div>';
+    document.getElementById('draft-output').style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.innerHTML = 'Draft this email';
+}
+
+function copyDraft() {
+  const el = document.getElementById('draft-text');
+  if (!el) return;
+  navigator.clipboard.writeText(el.innerText).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    if (btn) { btn.textContent = 'Copied!'; setTimeout(()=>btn.textContent='Copy to clipboard',2000); }
+  });
+}
+
+// ─── AI: RESEARCH ─────────────────────────────────────────────────────────────
+async function runResearch() {
+  const org = document.getElementById('research-org').value.trim();
+  const focus = document.getElementById('research-focus').value;
+  if (!org) { alert('Please enter an organisation name.'); return; }
+
+  const btn = document.getElementById('research-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner spinner-dark"></span> Researching...';
+  document.getElementById('research-output').style.display = 'none';
+
+  const focusDesc = {
+    overview: 'Provide a concise overview of the organisation and what teaching or professional opportunities might exist for Marc there.',
+    english: 'Focus specifically on what English-taught programmes they offer and any language requirements for staff.',
+    culture: 'Focus on the work culture, values, and what they typically look for in faculty or professional hires.',
+    contact: 'Who would be the best person to contact, their likely title, and how Marc should approach reaching out.',
+    compare: 'Compare this organisation to the other institutions on Marc\'s target list (BAAA, VIA Herning, AU Herning, Dania, AAUBS) in terms of fit for his profile.'
+  }[focus];
+
+  const prompt = `Marc Boivin is researching ${org} as a potential employer for his job search in Aarhus, Denmark.\n\n${PROFILE}\n\nTASK: ${focusDesc}\n\nBe specific, honest, and practical. Max 300 words. Use paragraph form, not bullet lists. If you are uncertain about something, say so clearly rather than speculating.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 800, messages: [{ role: 'user', content: prompt }] })
+    });
+    const data = await res.json();
+    const text = data.content.map(i=>i.text||'').join('').trim();
+    document.getElementById('research-output').innerHTML = `<div class="ai-result">${escHtml(text)}</div>`;
+    document.getElementById('research-output').style.display = 'block';
+  } catch(e) {
+    document.getElementById('research-output').innerHTML = '<div class="ai-result" style="color:var(--red);">Research failed. Check connection and try again.</div>';
+    document.getElementById('research-output').style.display = 'block';
+  }
+  btn.disabled = false;
+  btn.innerHTML = 'Research this org';
+}
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function escHtml(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+}
+
+// ─── BACKUP & RESTORE ─────────────────────────────────────────────────────────
+function exportBackup() {
+  const data = {
+    version: 1,
+    exported: new Date().toISOString(),
+    opps,
+    contacts,
+    employers,
+    nextOppId,
+    nextContactId,
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const date = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `marc-job-search-backup-${date}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const status = document.getElementById('restore-status');
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.opps || !data.contacts) throw new Error('Invalid backup file format.');
+      if (!confirm(`This will replace your current data with the backup from ${data.exported ? new Date(data.exported).toLocaleDateString() : 'unknown date'}.\n\nOpportunities: ${data.opps.length}\nContacts: ${data.contacts.length}\n\nContinue?`)) return;
+      opps = data.opps;
+      contacts = data.contacts;
+      if (data.employers) employers = data.employers;
+      nextOppId = data.nextOppId || Math.max(...opps.map(o=>o.id), 0) + 1;
+      nextContactId = data.nextContactId || Math.max(...contacts.map(c=>c.id), 0) + 1;
+      save('marc_opps', opps);
+      save('marc_contacts', contacts);
+      save('marc_employers', employers);
+      status.style.display = 'block';
+      status.style.color = 'var(--green)';
+      status.textContent = `✓ Restored successfully — ${opps.length} opportunities, ${contacts.length} contacts loaded.`;
+      updateSidebar();
+      renderBackupSummary();
+    } catch(err) {
+      status.style.display = 'block';
+      status.style.color = 'var(--red)';
+      status.textContent = '✗ Could not read this file. Make sure it\'s a backup exported from this tool.';
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+function resetToDefaults() {
+  if (!confirm('Reset ALL data to defaults? This cannot be undone.\n\nExport a backup first if you want to save your current data.')) return;
+  opps = JSON.parse(JSON.stringify(DEFAULT_OPPS));
+  contacts = JSON.parse(JSON.stringify(DEFAULT_CONTACTS));
+  employers = JSON.parse(JSON.stringify(DEFAULT_EMPLOYERS));
+  nextOppId = Math.max(...opps.map(o=>o.id), 0) + 1;
+  nextContactId = Math.max(...contacts.map(c=>c.id), 0) + 1;
+  save('marc_opps', opps);
+  save('marc_contacts', contacts);
+  save('marc_employers', employers);
+  updateSidebar();
+  renderBackupSummary();
+  alert('Reset complete.');
+}
+
+function renderBackupSummary() {
+  const el = document.getElementById('backup-summary');
+  if (!el) return;
+  const lastSave = localStorage.getItem('marc_last_save') || 'unknown';
+  const activeOpps = opps.filter(o=>['Outreach sent','Applied','Interview'].includes(o.stage));
+  el.innerHTML = `
+    Opportunities tracked: <strong>${opps.length}</strong><br>
+    Active (outreach sent / applied / interview): <strong>${activeOpps.length}</strong><br>
+    Contacts: <strong>${contacts.length}</strong><br>
+    Employers on watch list: <strong>${employers.length}</strong><br>
+    Storage: <strong>Browser localStorage</strong> — data stays until cache is cleared
+  `;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+renderDashboard();
+updateSidebar();
+</script>
+
+
+</body></html>
